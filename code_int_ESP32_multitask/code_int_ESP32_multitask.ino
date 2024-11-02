@@ -79,14 +79,21 @@ void setup() {
   Serial.println("WiFi connected");
 
   // Khởi tạo kết nối Firebase
-  Firebase.begin(FIREBASE_HOST,FIREBASE_AUTH);
+  config.host = FIREBASE_HOST;
+
+
+  auth.token.uid = FIREBASE_AUTH; // Firebase auth token
+  
+  Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
+  
   Firebase.setReadTimeout(firebaseData, 1000 * 60);
   Firebase.setwriteSizeLimit(firebaseData, "tiny");
-
-
+  
+  // Các khai báo khác
   myservo_vao.attach(servoVao_PIN);
   myservo_ra.attach(servoRa_PIN);
+
   myservo_vao.write(172);
   myservo_ra.write(82);
 
