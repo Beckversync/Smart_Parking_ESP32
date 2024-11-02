@@ -3,7 +3,7 @@
 #include <ESP32Servo.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
-#include <FirebaseESP32.h>
+#include <FirebaseClient.h>
 
 
 // Khai bao cac chan
@@ -79,21 +79,14 @@ void setup() {
   Serial.println("WiFi connected");
 
   // Khởi tạo kết nối Firebase
-  config.host = FIREBASE_HOST;
-
-
-  auth.token.uid = FIREBASE_AUTH; // Firebase auth token
-  
-  Firebase.begin(&config, &auth);
+  Firebase.begin(FIREBASE_HOST,FIREBASE_AUTH);
   Firebase.reconnectWiFi(true);
-  
   Firebase.setReadTimeout(firebaseData, 1000 * 60);
   Firebase.setwriteSizeLimit(firebaseData, "tiny");
-  
-  // Các khai báo khác
+
+
   myservo_vao.attach(servoVao_PIN);
   myservo_ra.attach(servoRa_PIN);
-
   myservo_vao.write(172);
   myservo_ra.write(82);
 
