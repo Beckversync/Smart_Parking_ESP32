@@ -78,8 +78,15 @@ void setup() {
   Serial.println("");
   Serial.println("WiFi connected");
 
+  // Tạo đối tượng FirebaseConfig và cấu hình
+  FirebaseConfig config;
+  FirebaseAuth auth;
+  config.host = FIREBASE_HOST;
+
+  config.signer.tokens.legacy_token = FIREBASE_AUTH;
+
   // Khởi tạo kết nối Firebase
-  Firebase.begin(FIREBASE_HOST,FIREBASE_AUTH);
+  Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
   Firebase.setReadTimeout(firebaseData, 1000 * 60);
   Firebase.setwriteSizeLimit(firebaseData, "tiny");
